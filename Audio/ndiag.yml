@@ -1,0 +1,248 @@
+---
+name: オーディオ環境
+docPath: docs
+views:
+  - 
+    name: overview
+    layers: ['Playback','Source Device','Group']
+
+nodes:
+  -
+    name: Windows(NUC1)
+    components:
+      - USB
+    clusters:
+      - 'Group:PC1'
+  -
+    name: Cantabile
+    components:
+      - "Nectar 3 In"
+      - "Nectar 3 Out"
+    clusters:
+      - 'Group:PC1'
+  -
+    name: Windows(Desktop)
+    components:
+      - USB
+    clusters:
+      - 'Group:PC2'
+  -
+    name: Windows(NUC2)
+    components:
+      - USB
+    clusters:
+      - 'Group:PC3'
+  -
+    name: Mac
+    components:
+      - USB
+    clusters:
+      - 'Group:PC4'
+  - 
+    name: Apple iPhone 8
+    components:
+      - Lightning
+    clusters:
+      - 'Group:Phone1'
+  - 
+    name: SHURE SM7b
+    components:
+      - XLR Out
+    clusters:
+      - 'Source Device:Mic'
+  -
+    name: DM1 DYNAMITE
+    components:
+      - XLR
+    clusters:
+      - 'Source Device:Mic'
+  -
+    name: Nintendo Switch
+    components:
+      - Stereo Out
+    clusters:
+      - 'Source Device:Game'
+  -
+    name: SONY MDR-CD900ST
+    components:
+      - L/R
+    clusters:
+      - 'Group:Playback'
+  -
+    name: Creative Pebble
+    components:
+      - L/R
+    clusters:
+      - 'Group:Playback'
+  - 
+    name: Focusrite
+    components:
+      - USB
+      - XLR In 1
+#      - LINE In 2
+      - LINE In 3/4
+#      - LINE In 5
+      - LINE In 6
+      - LINE In 7/8
+#      - LINE Out 1/2
+      - LINE Out 3
+      - LINE Out 4
+      - LINE Out 5/6
+      - LINE Out 7/8
+      - LINE Out 9/10
+#      - Coaxial In 1/2
+#      - Coaxial Out 1/2
+      - ADAT In 1-8
+      - ADAT Out 1-8
+    clusters:
+      - 'Group:PC1'
+  -
+    name: Babyface
+    components:
+      - ADAT In 1-8
+      - ADAT Out 1-8
+    clusters:
+      - 'Group:PC2'
+  -
+    name: Sound Blaster
+    components:
+      - USB
+      - Stereo In
+      - Stereo Out
+    clusters:
+      - 'Group:PC3'
+  -
+    name: Steinberg UR22C
+    components:
+      - USB
+      - XLR In 1
+#      - XLR In 2
+#      - Headphone Out
+      - LINE Out L
+#      - LINE Out R
+    clusters:
+      - 'Group:PC4'
+  -
+    name: TASCAM iXZ
+    components:
+      - 3.5mm Stereo Out
+      - Combo In
+      - TRRS
+    clusters:
+      - 'Group:Phone1'
+  -
+    name: Apple Headphone Adapter
+    components:
+      - TRRS
+      - Lightning
+    clusters:
+      - 'Group:Phone1'
+
+networks:
+  #マイク入力
+  - route:
+    - "SHURE SM7b:XLR Out"
+    - "DM1 DYNAMITE:XLR"
+  - route:
+    - "DM1 DYNAMITE:XLR"
+    - "Focusrite:XLR In 1"
+  - route:
+    - "Cantabile:Nectar 3 Out"
+    - "Focusrite:ADAT Out 1-8"
+  - route:
+    - "Focusrite:XLR In 1"
+    - "Cantabile:Nectar 3 In"
+  - route:
+    - "Cantabile:Nectar 3 Out"
+    - "Focusrite:LINE Out 3"
+  - route:
+    - "Cantabile:Nectar 3 Out"
+    - "Focusrite:LINE Out 4"
+  - route:
+    - "Cantabile:Nectar 3 Out"
+    - "Focusrite:LINE Out 5/6"
+  - route:
+    - "Cantabile:Nectar 3 Out"
+    - "Focusrite:LINE Out 6"
+  #PC1
+  - route:
+    - "Windows(NUC1):USB"
+    - "Focusrite:USB"
+  - route:
+    - "Focusrite:USB"
+    - "Windows(NUC1):USB"
+  #PC2
+  - route:
+    - "Windows(Desktop):USB"
+    - "Babyface:USB"
+  - route:
+    - "Babyface:USB"
+    - "Windows(Desktop):USB"
+  - route:
+    - "Focusrite:ADAT Out 1-8"
+    - "Babyface:ADAT In 1-8"
+  - route:
+    - "Babyface:ADAT Out 1-8"
+    - "Focusrite:ADAT In 1-8"
+  #PC3
+  - route:
+    - "Windows(NUC2):USB"
+    - "Sound Blaster:USB"
+  - route:
+    - "Sound Blaster:USB"
+    - "Windows(NUC2):USB"
+  - route:
+    - "Sound Blaster:Stereo Out"
+    - "Focusrite:LINE In 3/4"
+  - route:
+    - "Focusrite:LINE Out 5/6"
+    - "Sound Blaster:Stereo In"
+  #PC4
+  - route:
+    - "Mac:USB"
+    - "Steinberg UR22C:USB"
+  - route:
+    - "Steinberg UR22C:USB"
+    - "Mac:USB"
+  - route:
+    - "Focusrite:LINE Out 3"
+    - "Steinberg UR22C:XLR In 1"
+  - route:
+    - "Steinberg UR22C:LINE Out L"
+    - "Focusrite:LINE In 6"
+  #Phone1
+  - route:
+    - "Focusrite:LINE Out 4"
+    - "TASCAM iXZ:Combo In"
+  - route:
+    - "TASCAM iXZ:3.5mm Stereo Out"
+    - "Focusrite:Line In 7/8"
+  - route:
+    - "TASCAM iXZ:TRRS"
+    - "TASCAM iXZ:3.5mm Stereo Out"
+  - route:
+    - "TASCAM iXZ:Combo In"
+    - "TASCAM iXZ:TRRS"
+  - route:
+    - "TASCAM iXZ:TRRS"
+    - "Apple Headphone Adapter:TRRS"
+  - route:
+    - "Apple Headphone Adapter:TRRS"
+    - "TASCAM iXZ:TRRS"
+  - route:
+    - "Apple Headphone Adapter:Lightning"
+    - "Apple iPhone 8:Lightning"
+  - route:
+    - "Apple iPhone 8:Lightning"
+    - "Apple Headphone Adapter:Lightning"
+  #Other
+  - route:
+    - "Nintendo Switch:Stereo Out"
+    - "Focusrite:LINE In 3/4"
+  #Playback
+  - route:
+    - "Focusrite:LINE Out 7/8"
+    - "SONY MDR-CD900ST:L/R"
+  - route:
+    - "Focusrite:LINE Out 9/10"
+    - "Creative Pebble:L/R"
